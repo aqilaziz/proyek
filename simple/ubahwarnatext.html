@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Color Changer</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+        }
+
+        .text-container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="text-container">
+        <h1 id="text">Change My Color!</h1>
+        <button onclick="changeTextColor()">Change Text Color</button>
+    </div>
+
+    <script>
+        function changeTextColor() {
+            // Array berisi beberapa warna
+            const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#FFBD33', '#333'];
+            // Menghasilkan angka acak untuk memilih warna
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            // Mengubah warna teks
+            document.getElementById('text').style.color = randomColor;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        .stopwatch-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .time {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1rem;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start {
+            background-color: #28a745;
+        }
+
+        .stop {
+            background-color: #dc3545;
+        }
+
+        .reset {
+            background-color: #ffc107;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch-container">
+        <h1>Stopwatch</h1>
+        <div class="time" id="display">00:00:00</div>
+        <button class="button start" onclick="startStopwatch()">Start</button>
+        <button class="button stop" onclick="stopStopwatch()">Stop</button>
+        <button class="button reset" onclick="resetStopwatch()">Reset</button>
+    </div>
+
+    <script>
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let interval;
+        let running = false;
+
+        function updateDisplay() {
+            const display = document.getElementById('display');
+            const formattedTime = 
+                (hours < 10 ? '0' + hours : hours) + ':' +
+                (minutes < 10 ? '0' + minutes : minutes) + ':' +
+                (seconds < 10 ? '0' + seconds : seconds);
+            display.textContent = formattedTime;
+        }
+
+        function startStopwatch() {
+            if (!running) {
+                interval = setInterval(() => {
+                    seconds++;
+                    if (seconds === 60) {
+                        seconds = 0;
+                        minutes++;
+                        if (minutes === 60) {
+                            minutes = 0;
+                            hours++;
+                        }
+                    }
+                    updateDisplay();
+                }, 1000);
+                running = true;
+            }
+        }
+
+        function stopStopwatch() {
+            clearInterval(interval);
+            running = false;
+        }
+
+        function resetStopwatch() {
+            clearInterval(interval);
+            running = false;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>

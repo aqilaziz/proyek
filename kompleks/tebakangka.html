@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Angka</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tebak Angka</h1>
+        <input type="number" id="guessInput" placeholder="Masukkan tebakan Anda..." />
+        <button onclick="submitGuess()">Tebak!</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1; // Angka acak antara 1 dan 100
+        let attemptsLeft = 10; // Batas jumlah tebakan
+
+        function submitGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const message = document.getElementById('message');
+            const guess = parseInt(guessInput.value);
+
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                message.textContent = 'Tolong masukkan angka antara 1 dan 100.';
+                return;
+            }
+
+            attemptsLeft--;
+
+            if (guess === randomNumber) {
+                message.textContent = `Selamat! Anda menebak angka yang benar: ${randomNumber}.`;
+                resetGame();
+            } else if (attemptsLeft === 0) {
+                message.textContent = `Maaf, Anda kehabisan tebakan. Angka yang benar adalah ${randomNumber}.`;
+                resetGame();
+            } else if (guess < randomNumber) {
+                message.textContent = `Tebakan terlalu rendah! Sisa tebakan: ${attemptsLeft}.`;
+            } else {
+                message.textContent = `Tebakan terlalu tinggi! Sisa tebakan: ${attemptsLeft}.`;
+            }
+
+            guessInput.value = '';
+        }
+
+        function resetGame() {
+            setTimeout(() => {
+                attemptsLeft = 10;
+                randomNumber = Math.floor(Math.random() * 100) + 1;
+                document.getElementById('message').textContent = '';
+                document.getElementById('guessInput').value = '';
+            }, 5000); // Mengatur ulang game setelah 5 detik
+        }
+    </script>
+</body>
+</html>
