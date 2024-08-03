@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tugas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .wadah {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 5px 10px;
+        }
+
+        button:hover {
+            background-color: #ff1a1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="wadah">
+        <h1>Daftar Tugas</h1>
+        <input type="text" id="inputTugas" placeholder="Tambahkan tugas baru">
+        <ul id="daftarTugas"></ul>
+    </div>
+
+    <script>
+        // Menambahkan event listener untuk memasukkan tugas baru ketika tombol Enter ditekan
+        document.getElementById('inputTugas').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                tambahTugas();
+            }
+        });
+
+        // Fungsi untuk menambahkan tugas baru ke dalam daftar
+        function tambahTugas() {
+            var inputTugas = document.getElementById('inputTugas');
+            var teksTugas = inputTugas.value.trim();
+            if (teksTugas !== "") {
+                var daftarTugas = document.getElementById('daftarTugas');
+                var li = document.createElement('li');
+                li.innerHTML = teksTugas + ' <button onclick="hapusTugas(this)">Hapus</button>';
+                daftarTugas.appendChild(li);
+                inputTugas.value = "";
+            }
+        }
+
+        // Fungsi untuk menghapus tugas dari daftar
+        function hapusTugas(tombol) {
+            var li = tombol.parentElement;
+            li.remove();
+        }
+    </script>
+</body>
+</html>

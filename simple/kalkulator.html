@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sederhana</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .kalkulator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .layar {
+            font-size: 32px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: calc(100% - 22px);
+            text-align: right;
+        }
+
+        .tombol {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 20px;
+            font-size: 20px;
+            width: 70px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="kalkulator">
+        <input type="text" class="layar" id="layar" readonly>
+        <div class="tombol">
+            <button onclick="masukkanNilai('7')">7</button>
+            <button onclick="masukkanNilai('8')">8</button>
+            <button onclick="masukkanNilai('9')">9</button>
+            <button onclick="masukkanOperator('/')">/</button>
+            <button onclick="masukkanNilai('4')">4</button>
+            <button onclick="masukkanNilai('5')">5</button>
+            <button onclick="masukkanNilai('6')">6</button>
+            <button onclick="masukkanOperator('*')">*</button>
+            <button onclick="masukkanNilai('1')">1</button>
+            <button onclick="masukkanNilai('2')">2</button>
+            <button onclick="masukkanNilai('3')">3</button>
+            <button onclick="masukkanOperator('-')">-</button>
+            <button onclick="masukkanNilai('0')">0</button>
+            <button onclick="masukkanNilai('.')">,</button>
+            <button onclick="hitung()">=</button>
+            <button onclick="masukkanOperator('+')">+</button>
+            <button onclick="resetLayar()">C</button>
+        </div>
+    </div>
+
+    <script>
+        function masukkanNilai(nilai) {
+            var layar = document.getElementById('layar');
+            layar.value += nilai;
+            layar.value = formatInput(layar.value);
+        }
+
+        function masukkanOperator(operator) {
+            var layar = document.getElementById('layar');
+            layar.value = layar.value.replace(/\./g, ''); // Remove thousand separators for evaluation
+            layar.value += operator;
+        }
+
+        function hitung() {
+            var layar = document.getElementById('layar');
+            layar.value = layar.value.replace(/\./g, '').replace(/,/g, '.'); // Replace thousand separators and change comma to dot
+            try {
+                var hasil = eval(layar.value);
+                layar.value = formatRibuan(hasil.toString().replace('.', ','));
+            } catch (e) {
+                layar.value = 'Error';
+            }
+        }
+
+        function resetLayar() {
+            document.getElementById('layar').value = '';
+        }
+
+        function formatRibuan(nilai) {
+            var parts = nilai.split(',');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return parts.join(',');
+        }
+
+        function formatInput(input) {
+            var parts = input.split(/([+/*-])/);
+            for (var i = 0; i < parts.length; i++) {
+                if (!isNaN(parts[i])) {
+                    parts[i] = parts[i].replace(/\./g, ''); // Remove thousand separators for proper formatting
+                    parts[i] = formatRibuan(parts[i]);
+                }
+            }
+            return parts.join('');
+        }
+    </script>
+</body>
+</html>
