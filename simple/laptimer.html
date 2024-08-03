@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch dengan Lap Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #display {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .buttons button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        #laps {
+            margin-top: 20px;
+            text-align: left;
+        }
+        #laps div {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stopwatch</h1>
+        <div id="display">00:00:00</div>
+        <div class="buttons">
+            <button id="startStopBtn">Mulai</button>
+            <button id="lapBtn">Catat Waktu</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+        <div id="laps"></div>
+    </div>
+    <script>
+        let startTime, updatedTime, difference, tInterval;
+        let running = false;
+        let laps = [];
+
+        // Fungsi untuk format waktu menjadi mm:ss:ms
+        function formatTime(ms) {
+            let milliseconds = Math.floor((ms % 1000) / 10);
+            let seconds = Math.floor((ms / 1000) % 60);
+            let minutes = Math.floor((ms / (1000 * 60)) % 60);
+            return (
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds) + ":" +
+                (milliseconds < 10 ? "0" + milliseconds : milliseconds)
+            );
+        }
+
+        // Fungsi untuk memperbarui tampilan stopwatch
+        function updateDisplay() {
+            updatedTime = new Date().getTime();
+            difference = updatedTime - startTime;
+            document.getElementById("display").innerText = formatTime(difference);
+        }
+
+        // Fungsi untuk memulai atau menghentikan stopwatch
+        document.getElementById("startStopBtn").addEventListener("click", function() {
+            if (!running) {
+                running = true;
+                startTime = new Date().getTime() - (difference || 0);
+                tInterval = setInterval(updateDisplay, 10);
+                this.innerText = "Berhenti";
+            } else {
+                running = false;
+                clearInterval(tInterval);
+                this.innerText = "Mulai";
+            }
+        });
+
+        // Fungsi untuk mencatat waktu lap
+        document.getElementById("lapBtn").addEventListener("click", function() {
+            if (running) {
+                laps.push(formatTime(difference));
+                let lapDiv = document.createElement("div");
+                lapDiv.innerText = "Lap " + laps.length + ": " + formatTime(difference);
+                document.getElementById("laps").appendChild(lapDiv);
+            }
+        });
+
+        // Fungsi untuk mereset stopwatch
+        document.getElementById("resetBtn").addEventListener("click", function() {
+            running = false;
+            clearInterval(tInterval);
+            document.getElementById("startStopBtn").innerText = "Mulai";
+            difference = 0;
+            document.getElementById("display").innerText = "00:00:00";
+            document.getElementById("laps").innerHTML = "";
+            laps = [];
+        });
+    </script>
+</body>
+</html>

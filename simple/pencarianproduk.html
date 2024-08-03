@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencarian Daftar Produk</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        .search-box {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .product-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .product-item {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Pencarian Daftar Produk</h2>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari produk...">
+    </div>
+    <ul id="productList" class="product-list"></ul>
+
+    <script>
+        const products = [
+            { name: 'Laptop', price: 10000 },
+            { name: 'Handphone', price: 5000 },
+            { name: 'Kamera', price: 7500 },
+            { name: 'Headset', price: 250 },
+            { name: 'Keyboard', price: 200 },
+            { name: 'Mouse', price: 150 },
+            { name: 'Smartwatch', price: 2000 },
+            { name: 'Speaker', price: 300 },
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const productList = document.getElementById('productList');
+
+        function renderProducts(filter = '') {
+            productList.innerHTML = '';
+
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filteredProducts.forEach(product => {
+                const productItem = document.createElement('li');
+                productItem.className = 'product-item';
+                productItem.textContent = `${product.name} - Rp ${product.price.toLocaleString()}`;
+                productList.appendChild(productItem);
+            });
+        }
+
+        searchInput.addEventListener('input', () => {
+            renderProducts(searchInput.value);
+        });
+
+        // Initial render
+        renderProducts();
+    </script>
+
+</body>
+</html>

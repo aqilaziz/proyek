@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hitung Usia Anda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hitung Usia Anda</h1>
+        <select id="day"></select>
+        <select id="month"></select>
+        <select id="year"></select>
+        <button onclick="calculateAge()">Hitung Usia</button>
+        <div id="message"></div>
+    </div>
+    <script>
+        // Mengisi dropdown hari
+        for (let i = 1; i <= 31; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            document.getElementById('day').appendChild(option);
+        }
+
+        // Mengisi dropdown bulan
+        const months = [
+            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+        for (let i = 0; i < months.length; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = months[i];
+            document.getElementById('month').appendChild(option);
+        }
+
+        // Mengisi dropdown tahun
+        const currentYear = new Date().getFullYear();
+        for (let i = currentYear; i >= 1900; i--) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            document.getElementById('year').appendChild(option);
+        }
+
+        function calculateAge() {
+            const day = document.getElementById('day').value;
+            const month = document.getElementById('month').value;
+            const year = document.getElementById('year').value;
+
+            const birthDate = new Date(year, month, day);
+            const today = new Date();
+            const ageInMilliseconds = today - birthDate;
+
+            const ageDate = new Date(ageInMilliseconds);
+
+            const years = ageDate.getUTCFullYear() - 1970;
+            const months = ageDate.getUTCMonth();
+            const days = ageDate.getUTCDate() - 1;
+            const hours = ageDate.getUTCHours();
+            const minutes = ageDate.getUTCMinutes();
+            const seconds = ageDate.getUTCSeconds();
+
+            const message = document.getElementById('message');
+            if (isNaN(years)) {
+                message.innerText = "Silakan masukkan tanggal lahir Anda dengan benar.";
+                message.style.color = "red";
+            } else {
+                message.innerText = `Usia Anda:
+                    ${years} tahun,
+                    ${months} bulan,
+                    ${days} hari,
+                    ${hours} jam,
+                    ${minutes} menit,
+                    ${seconds} detik.`;
+                message.style.color = "green";
+            }
+        }
+    </script>
+</body>
+</html>
